@@ -1,4 +1,6 @@
-﻿namespace Core.Nodes.Strategies
+﻿using Core.Nodes;
+
+namespace Core.Interfaces
 {
     public interface IVisitor
     {

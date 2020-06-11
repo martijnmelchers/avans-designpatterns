@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Core.Interfaces;
 using Core.Nodes.Strategies;
 
 namespace Core.Nodes
 {
-    public class Node : IVisitable
+    public class Node : IVisitable, IComponent<Node>
     {
         public int TimesTraversed;
 
         public readonly INodeStrategy Strategy;
+
+        public Type StrategyType => Strategy.GetType();
 
         public Node(string name, INodeStrategy strategy)
         {
@@ -27,7 +31,7 @@ namespace Core.Nodes
 
         public void SetOutput(NodeOutput output) => Output = output;
 
-        private void AddInput(Node node)
+        public void AddInput(Node node)
         {
             Inputs.Add(node);
         }
@@ -64,9 +68,11 @@ namespace Core.Nodes
         {
             BeforeProcess();
             //
-            // if (InvalidInputs())
-            //     return;
+            if (InvalidInputs())
+                 return;
             Output = Strategy.Execute(Inputs, Output);
+            
+            
             
             AfterProcess();
         }

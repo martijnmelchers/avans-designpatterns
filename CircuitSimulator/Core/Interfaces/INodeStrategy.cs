@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Core.Nodes;
 
-namespace Core.Nodes.Strategies
+namespace Core.Interfaces
 {
     public interface INodeStrategy
     {
         int MinimumInputs { get; }
         int MaximumInputs { get; } 
-        NodeOutput Execute(List<Node> inputs, NodeOutput currentOutput);
+        NodeOutput Execute(IEnumerable<Node> inputs, NodeOutput currentOutput);
     }
 }

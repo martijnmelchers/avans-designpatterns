@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Interfaces;
 
 namespace Core.Nodes.Strategies
 {
@@ -7,7 +8,7 @@ namespace Core.Nodes.Strategies
     {
         public int MinimumInputs => 1;
         public int MaximumInputs => 1;
-        public NodeOutput Execute(List<Node> inputs, NodeOutput currentOutput)
+        public NodeOutput Execute(IEnumerable<Node> inputs, NodeOutput currentOutput)
         {
             return inputs.First().Output;
         }

@@ -1,8 +1,8 @@
 ﻿using System;
+using Core.Interfaces;
 using Core.Nodes;
-using Core.Nodes.Strategies;
 
-namespace Core
+namespace Core.Visitors
 {
     public class ConnectionValidatorVisitor : IVisitor
     {

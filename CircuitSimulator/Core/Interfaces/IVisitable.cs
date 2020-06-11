@@ -1,4 +1,4 @@
-﻿namespace Core.Nodes.Strategies
+﻿namespace Core.Interfaces
 {
     public interface IVisitable
     {
