@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Extensions;
 using Core.Interfaces;
-using Core.Nodes.Strategies;
 
 namespace Core.Nodes
 {
-    public class NodeFactory
+    public class NodeFactory : Singleton<NodeFactory>
     {
         public NodeFactory()
         {

@@ -9,8 +9,8 @@ namespace Core
     public class Circuit
     {
         public readonly List<Node> Nodes;
-        public IEnumerable<Node> InputNodes => Nodes.Where(x => x.StrategyType == typeof(InputStrategy)).ToList();
-        public IEnumerable<Node> OutputNodes => Nodes.Where(x => x.StrategyType == typeof(ProbeStrategy)).ToList();
+        public IEnumerable<Node> InputNodes => Nodes.Where(x => x.Strategy is InputStrategy).ToList();
+        public IEnumerable<Node> OutputNodes => Nodes.Where(x => x.Strategy is ProbeStrategy).ToList();
 
         public Circuit()
         {
@@ -24,7 +24,12 @@ namespace Core
 
         public int ExecutionTime()
         {
-            return Nodes.Sum(x => x.TimesTraversed) * 15;
+            return Nodes.Sum(x => x.TimesCalculated) * 15;
+        }
+
+        public void ResetSimulation()
+        {
+            foreach (var inputNode in InputNodes) inputNode.Reset(false);
         }
     }
 }

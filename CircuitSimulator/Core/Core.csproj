@@ -7,25 +7,10 @@
 
     <ItemGroup>
       <None Remove="Circuits\Circuit1_FullAdder.txt" />
-      <Content Include="Circuits\Circuit1_FullAdder.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="Circuits\Circuit2_Decoder.txt" />
-      <Content Include="Circuits\Circuit2_Decoder.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="Circuits\Circuit3_Encoder.txt" />
-      <Content Include="Circuits\Circuit3_Encoder.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="Circuits\Circuit4_InfiniteLoop.txt" />
-      <Content Include="Circuits\Circuit4_InfiniteLoop.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="Circuits\Circuit5_NotConnected.txt" />
-      <Content Include="Circuits\Circuit5_NotConnected.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
 </Project>

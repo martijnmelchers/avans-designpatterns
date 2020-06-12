@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using Core.Builders;
 using Core.Nodes;
 using Core.Nodes.Strategies;
 
@@ -12,7 +13,7 @@ namespace Core
     {
         static void Main(string[] args)
         {
-            var nodeFactory = new NodeFactory();
+            var nodeFactory = NodeFactory.GetInstance;
 
             nodeFactory
                 .RegisterStrategy<InputStrategy>("input_high", "input_low")
@@ -24,29 +25,14 @@ namespace Core
                 .RegisterStrategy<NandStrategy>("nand")
                 .RegisterStrategy<XorStrategy>("xor");
 
-            var output = FileParser.ParseFile(FileParser.ReadFile("Circuit1_FullAdder"));
+            var (nodes, edges) = FileParser.ParseFile(FileReader.ReadFile("Circuit3_Encoder"));
             
             var circuitBuilder = new CircuitBuilder();
+            
+            circuitBuilder.BuildNodes(nodes);
+            circuitBuilder.BuildEdges(edges);
 
-            foreach (var (name, type) in output.nodes)
-            {
-                var node = nodeFactory.CreateNode(name, type);
-
-                if (node.StrategyType == typeof(InputStrategy))
-                    node.SetOutput(type == "input_low" ? NodeOutput.Off : NodeOutput.On);
-
-                circuitBuilder.Add(node);
-            }
-
-            foreach (var (name, edges) in output.edges)
-            {
-                foreach (var edge in edges)
-                {
-                    circuitBuilder.Connect(name, edge);
-                }
-            }
-
-            var circuit = circuitBuilder.Build();
+            var circuit = circuitBuilder.BuildCircuit();
 
 
             var watch = new Stopwatch();
@@ -55,7 +41,7 @@ namespace Core
             circuit.Simulate();
             watch.Stop();
 
-            Console.Out.WriteLine($"Propogation delay: {circuit.ExecutionTime()} nanoseconds");
+            Console.Out.WriteLine($"Propagation delay: {circuit.ExecutionTime()} nanoseconds");
 
             foreach (var test in circuit.OutputNodes)
             {

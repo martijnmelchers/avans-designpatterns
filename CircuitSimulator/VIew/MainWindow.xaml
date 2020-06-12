@@ -1,12 +1,31 @@
-﻿<Window x:Class="VIew.MainWindow"
+﻿<Window x:Class="View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VIew"
+        xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid DataContext="{Binding}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="250"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Select a circuit below to start the simulation. Click the inputs on the right to change the value"/>
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding CircuitFiles}"
+                        SelectedItem="{Binding SelectedCircuit}">
+            </ComboBox>
+            <Button Margin="30,0,0,0" Padding="10" Content="Load file" Click="LoadInCircuitFile"/>
+            <Button Margin="30,0,0,0" Padding="10" x:Name="RestartSimulationButton" Content="Restart Simulation" Click="RestartSimulation" IsEnabled="false" />
+        </StackPanel>
+        <Label Grid.Row="2" Grid.Column="0" x:Name="ExecutionTimeLabel"/>
+        <Grid Grid.Row="3" x:Name="NodeGrid">
+        </Grid>
     </Grid>
 </Window>

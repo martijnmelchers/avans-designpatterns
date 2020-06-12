@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Core
 {
-    public class FileParser
+    public static class FileParser
     {
-        public static List<string> ReadFile(string name)
-        {
-            return File.ReadAllLines($"Circuits/{name}.txt").ToList();
-        }
-        
         public static (Dictionary<string, string> nodes, Dictionary<string, string[]> edges) ParseFile(List<string> lines)
         {
             var invalidLines = lines.Where(StringExtensions.InvalidEntry).ToList();
@@ -20,6 +15,10 @@ namespace Core
             // If there are any invalid lines we can't proceed!
             if (invalidLines.Any())
                 throw new SyntaxErrorException($"Invalid syntax at following lines:\n{string.Join("\n", invalidLines)}");
+            
+            // If there is more then 1 empty line we cannot parse the file
+            if(lines.Count(string.IsNullOrWhiteSpace) > 1)
+                throw new SyntaxErrorException("More then one empty line found! Only one empty line allowed between nodes and edge declaration");
 
             // Filter out the lines that start with an #, those are comments.
             lines = lines.Where(x => !x.StartsWith("#")).ToList();

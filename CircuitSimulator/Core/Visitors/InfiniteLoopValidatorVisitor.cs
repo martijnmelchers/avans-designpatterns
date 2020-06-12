@@ -20,6 +20,19 @@ namespace Core.Visitors
                 node = node.Outputs.FirstOrDefault();
             }
         }
+
+        private void DetectInfiniteLoop(Node inputNode, List<KeyValuePair<string, string>> existedPaths)
+        {
+            var outputNode = inputNode.Outputs.FirstOrDefault();
+
+            if (outputNode == null)
+                return;
+
+            while (true)
+            {
+                
+            }
+        }
         
     }
 }

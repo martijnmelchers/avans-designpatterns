@@ -3,10 +3,10 @@ using Core.Nodes;
 
 namespace Core.Interfaces
 {
-    public interface INodeStrategy
+    public interface INodeStrategy : IDrawableNode
     {
         int MinimumInputs { get; }
         int MaximumInputs { get; } 
-        NodeOutput Execute(IEnumerable<Node> inputs, NodeOutput currentOutput);
+        NodeOutput Execute(List<Node> inputs, NodeOutput currentOutput);
     }
 }

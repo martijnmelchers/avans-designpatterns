@@ -7,9 +7,15 @@ namespace Core.Nodes.Strategies
     {
         public int MinimumInputs => 0;
         public int MaximumInputs => 0;
-        public NodeOutput Execute(IEnumerable<Node> inputs, NodeOutput currentOutput)
+
+        
+        public NodeOutput Execute(List<Node> inputs, NodeOutput currentOutput) => currentOutput;
+
+        public string Draw(NodeOutput state) => state switch
         {
-            return currentOutput;
-        }
+            NodeOutput.Off => "OFF.png",
+            NodeOutput.On => "ON.png",
+            _ => "NOT_CALCULATED.png"
+        };
     }
 }

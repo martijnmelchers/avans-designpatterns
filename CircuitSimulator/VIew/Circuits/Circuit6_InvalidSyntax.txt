@@ -1,0 +1,4 @@
+﻿A: INPUT_LOW;
+B ERROR_SYNTAX;
+
+B: A: C:

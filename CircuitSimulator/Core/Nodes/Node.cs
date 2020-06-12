@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
+using System.Resources;
 using Core.Interfaces;
 using Core.Nodes.Strategies;
 
 namespace Core.Nodes
 {
-    public class Node : IVisitable, IComponent<Node>
+    public class Node : IVisitable, IComponent<Node>, IDrawable
     {
-        public int TimesTraversed;
+        public int TimesCalculated;
 
         public readonly INodeStrategy Strategy;
-
-        public Type StrategyType => Strategy.GetType();
-
         public Node(string name, INodeStrategy strategy)
         {
             Name = name;
@@ -42,22 +39,7 @@ namespace Core.Nodes
             node.AddInput(this);
         }
 
-        private bool InvalidInputs()
-        {
-            return Inputs.Any(x => x.Output == NodeOutput.NotCalculated);
-        }
-
-        private void BeforeProcess()
-        {
-            TimesTraversed++;
-            // Console.Out.WriteLine($"Processing log of node: {Name}");
-            // Console.Out.WriteLine("-> Start processing of node...");
-            // Console.Out.WriteLine($"-> Inputs found: {Inputs.Count}");
-            // Console.Out.WriteLine($"-> Outputs found: {Outputs.Count}");
-            // Console.Out.WriteLine($"-> Current state: {Output}");
-        }
-
-        private void AfterProcess()
+        private void TriggerOutputs()
         {
             
             foreach (var node in Outputs) 
@@ -66,20 +48,39 @@ namespace Core.Nodes
 
         public void Process()
         {
-            BeforeProcess();
-            //
-            if (InvalidInputs())
-                 return;
+            if (Output != NodeOutput.NotCalculated)
+            {
+                TriggerOutputs();
+                return;
+            }
+            
+            TimesCalculated++;
+
             Output = Strategy.Execute(Inputs, Output);
+
+            if (Output == NodeOutput.NotCalculated)
+                return;
             
-            
-            
-            AfterProcess();
+            TriggerOutputs();
+
         }
 
         public void Accept(IVisitor visitor)
         {
             visitor.VisitNode(this);
+        }
+
+        public string Draw() => Strategy.Draw(Output);
+
+        public void Reset(bool resetOutput)
+        {
+            TimesCalculated = 0;
+            
+            if(resetOutput)
+                Output = NodeOutput.NotCalculated;
+
+            foreach (var output in Outputs)
+                output.Reset(true);
         }
     }
 }

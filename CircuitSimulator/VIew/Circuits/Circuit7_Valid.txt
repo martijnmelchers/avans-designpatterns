@@ -1,0 +1,16 @@
+﻿# Valid test circuit
+A: INPUT_HIGH;
+B: INPUT_LOW;
+Cout: PROBE;
+S: PROBE;
+OR: OR;
+AND: AND;
+XOR: XOR;
+NOR: NOR;
+
+A: OR, AND;
+B: OR, AND;
+OR: NOR, XOR;
+AND: NOR, XOR;
+XOR: Cout;
+NOR: S;

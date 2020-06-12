@@ -13,9 +13,19 @@ namespace Core.Nodes.Strategies
         // 1 - 1 = 0
         public int MinimumInputs => 2;
         public int MaximumInputs => int.MaxValue;
-        public NodeOutput Execute(IEnumerable<Node> inputs, NodeOutput currentOutput)
+
+        public NodeOutput Execute(List<Node> inputs, NodeOutput currentOutput)
         {
-            return inputs.Any(x => x.Output == NodeOutput.On) ? NodeOutput.Off : NodeOutput.On;
+            if (inputs.Any(x => x.Output == NodeOutput.On))
+                return NodeOutput.Off;
+
+            // If any of them are not calculated we can't determine the result yet.
+            if (inputs.Any(x => x.Output == NodeOutput.NotCalculated))
+                return NodeOutput.NotCalculated;
+
+            return inputs.All(x => x.Output == NodeOutput.Off) ? NodeOutput.On : NodeOutput.Off;
         }
+        
+        public string Draw(NodeOutput state) => "NOR.png";
     }
 }
