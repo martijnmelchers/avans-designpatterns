@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Core;
 using Core.Nodes;
@@ -157,11 +158,9 @@ namespace View
 
         private StackPanel BuildPanel(Node node)
         {
-            var image = node.Draw();
-
             var imageComponent = new Image
             {
-                Source = new BitmapImage(new Uri($@"{AppDomain.CurrentDomain.BaseDirectory}Images/{image}",
+                Source = new BitmapImage(new Uri($@"{AppDomain.CurrentDomain.BaseDirectory}Images/{node.Draw()}",
                     UriKind.Absolute)),
                 Width = 64,
                 Height = 64
@@ -171,23 +170,25 @@ namespace View
             {
                 imageComponent.MouseLeftButtonDown += (sender, args) =>
                 {
-                    _controller.UpdateInput(_circuit, node);
+                    CircuitViewController.UpdateInput(_circuit, node);
                     DrawCircuit();
                 };
             }
 
             var infoComponent = new Label
             {
+                Foreground = Brushes.White,
                 Content = $"Name: {node.Name}\n" +
-                       $"Delay: {node.TimesCalculated * 15} nanoseconds\n" +
-                       $"State: {node.Output}\n" +
-                       (node.Strategy is InputStrategy
-                           ? ""
-                           : $"Inputs: {string.Join(", ", node.Inputs.Select(x => x.Name))}")
+                          $"Delay: {node.TimesCalculated * 15} nanoseconds\n" +
+                          $"State: {node.Output}\n" +
+                          (node.Strategy is InputStrategy
+                              ? ""
+                              : $"Inputs: {string.Join(", ", node.Inputs.Select(x => x.Name))}")
             };
 
             var panel = new StackPanel
             {
+                Background = node.Output == NodeOutput.Off ? Brushes.Red : Brushes.ForestGreen,
                 Orientation = Orientation.Horizontal
             };
 

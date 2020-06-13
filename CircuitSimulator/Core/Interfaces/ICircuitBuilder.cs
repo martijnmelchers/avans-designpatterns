@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Core.Builders;
 
 namespace Core.Interfaces
 {
     public interface ICircuitBuilder
     {
         Circuit BuildCircuit();
-        void BuildNodes(Dictionary<string, string> nodes);
-        void BuildEdges(Dictionary<string, string[]> edges);
+        CircuitBuilder BuildNodes(Dictionary<string, string> nodes);
+        CircuitBuilder BuildEdges(Dictionary<string, string[]> edges);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Extensions;
 using Core.Interfaces;
 using Core.Nodes;
 using Core.Nodes.Strategies;
@@ -31,7 +30,7 @@ namespace Core.Builders
             return _circuit;
         }
 
-        public void BuildNodes(Dictionary<string, string> nodes)
+        public CircuitBuilder BuildNodes(Dictionary<string, string> nodes)
         {
             foreach (var (name, type) in nodes)
             {
@@ -42,9 +41,11 @@ namespace Core.Builders
 
                 Add(node);
             }
+
+            return this;
         }
 
-        public void BuildEdges(Dictionary<string, string[]> edges)
+        public CircuitBuilder BuildEdges(Dictionary<string, string[]> edges)
         {
             foreach (var (name, foundEdges) in edges)
             {
@@ -53,15 +54,17 @@ namespace Core.Builders
                     Connect(name, edge);
                 }
             }
+            
+            return this;
         }
 
-        public void Add(Node input)
+        private void Add(Node input)
         {
             _circuit.Nodes.Add(input);
         }
 
         // Connects two nodes, grabs nodes by name.
-        public void Connect(string from, string to)
+        private void Connect(string from, string to)
         {
             var fromNode = _circuit.Nodes.FirstOrDefault(x => x.Name == from);
             var toNode = _circuit.Nodes.FirstOrDefault(x => x.Name == to);

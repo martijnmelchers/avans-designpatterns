@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using Core;
 using Core.Builders;
 using Core.Nodes;
@@ -12,8 +10,7 @@ namespace View
 {
     public class CircuitViewController
     {
-        private static string _circuitPath = "Circuits";
-
+        private const string _circuitPath = "Circuits";
         public List<string> CircuitFiles { get; set; }
         public string SelectedCircuit { get; set; }
 
@@ -42,16 +39,15 @@ namespace View
             
             var circuitBuilder = new CircuitBuilder();
             
-            circuitBuilder.BuildNodes(nodes);
-            circuitBuilder.BuildEdges(edges);
-
-            var circuit =  circuitBuilder.BuildCircuit();
-           // circuit.Simulate();
+            var circuit = circuitBuilder
+                .BuildNodes(nodes)
+                .BuildEdges(edges)
+                .BuildCircuit();
 
             return circuit;
         }
 
-        public void UpdateInput(Circuit circuit, Node node)
+        public static void UpdateInput(Circuit circuit, Node node)
         {
             circuit.ResetSimulation();
 
